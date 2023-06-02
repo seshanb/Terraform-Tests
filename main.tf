@@ -1,6 +1,14 @@
 
 data "aws_region" "current" {}
 
+data "external" "inspector_exists" {
+  program = [
+    "sh",
+    "${path.module}/scripts/check_inspector.sh",
+    "${data.aws_region.current_region.name}"
+  ]
+}
+
 resource "aws_dynamodb_table" "basic-dynamodb-table" {
   name           = "GameScores"
   billing_mode   = "PAY_PER_REQUEST"
