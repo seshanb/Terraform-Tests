@@ -3,7 +3,7 @@ data "aws_region" "current" {}
 
 data "external" "inspector_exists" {
   program = [
-    "sh",
+    "/bin/bash",
     "${path.module}/scripts/check_inspector.sh",
     "${data.aws_region.current.name}"
   ]
