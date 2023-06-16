@@ -1,11 +1,11 @@
-
 data "aws_region" "current" {}
 
-
-resource "null_resource" "create-endpoint" {
-  provisioner "local-exec" {
-    command = "aws ec2 describe-instances --region ${data.aws_region.current.name}"
-  }
+data "external" "inspector_exists" {
+  program = [
+    "/bin/bash",
+    "${path.module}/scripts/check_inspector.sh",
+    "${data.aws_region.current.name}"
+  ]
 }
 
 resource "aws_dynamodb_table" "basic-dynamodb-table" {
@@ -48,5 +48,6 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
   tags = {
     Name        = "dynamodb-table-1"
     Environment = "production"
+    IExist = "${data.external.inspector_exists.result.endpoint_exists}"
   }
 }
