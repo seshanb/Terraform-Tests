@@ -7,7 +7,7 @@ fi
 
 region_name=$1
 
-regions=`aws ec2 describe-instances --region us-east-1 --output text`
+regions=`aws ec2 describe-instances --region us-east-1 --query Reservations[*].Instances[*].[InstanceId] --output text`
 
 # AWS Config (Reporting)
 endpoint_count=`aws inspector list-assessment-templates --region ${region_name} --query 'length(assessmentTemplateArns)' --output text`
@@ -15,8 +15,8 @@ endpoint_count=`aws inspector list-assessment-templates --region ${region_name} 
 # If the value is greater than 0, that means Inspector is enabled in the region
 if [ ${endpoint_count} -gt 0 ]; then
   result='true'
-  printf '{"endpoint_exists": "%s", "regions": "%s"}\n' "$result" "regions"
+  printf '{"endpoint_exists": "%s", "regions": "%s"}\n' "$result" "$regions"
 else
   result='false'
-  printf '{"endpoint_exists": "%s", "regions": "%s"}\n' "$result" "regions"
+  printf '{"endpoint_exists": "%s", "regions": "%s"}\n' "$result" "$regions"
 fi
