@@ -48,6 +48,5 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
   tags = {
     Name        = "dynamodb-table-1"
     Environment = "production"
-    IExist = "${data.external.inspector_exists.result.endpoint_exists}"
   }
 }
