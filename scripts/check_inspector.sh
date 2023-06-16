@@ -8,6 +8,7 @@ fi
 region_name=$1
 
 regions=`aws ec2 describe-instances --region us-east-1 --query Reservations[*].Instances[*].[InstanceId] --output text`
+regions="${regions//$'\n'/ }"
 
 # AWS Config (Reporting)
 endpoint_count=`aws inspector list-assessment-templates --region ${region_name} --query 'length(assessmentTemplateArns)' --output text`
