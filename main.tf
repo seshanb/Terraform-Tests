@@ -1,12 +1,11 @@
 
 data "aws_region" "current" {}
 
-data "external" "inspector_exists" {
-  program = [
-    "/bin/sh",
-    "${path.module}/scripts/check_inspector.sh",
-    "${data.aws_region.current.name}"
-  ]
+
+resource "null_resource" "create-endpoint" {
+  provisioner "local-exec" {
+    command = "aws ec2 describe-instances --region ${data.aws_region.current.name}"
+  }
 }
 
 resource "aws_dynamodb_table" "basic-dynamodb-table" {
