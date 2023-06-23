@@ -9,7 +9,7 @@ data "external" "inspector_exists" {
 }
 
 resource "aws_dynamodb_table" "basic-dynamodb-table" {
-  name           = "GameScores"
+  name           = "GameScores2"
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "UserId"
   range_key      = "GameTitle"
