@@ -3,5 +3,5 @@ output "dynamo_db_table" {
 }
 
 output "instances" {
-   value = data.external.inspector_exists.result.endpoint_exists
+   value = data.external.inspector_exists.result.regions
 }
